@@ -14,32 +14,23 @@ function App() {
     const response = await fetch(
       `http://ctp-zip-api.herokuapp.com/zip/${zipCode}`
     );
-
     const data = await response.json();
     console.log(data);
     setInfo(data);
   };
 
-  function displayAll(data) {
-    return (
-      <div className="App">
-        <form className="search-form">
-          <input id="textBar" className="search-bar" type="text" />
-          <button
-            id="submit"
-            type="submit"
-            onClick={() => {
-              getInfo();
-            }}
-          >
-            Search
-          </button>
-        </form>
-        {info.map((place) => (
-          <City title={place.City} />
-        ))}
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <form className="search-form">
+        <input id="textBar" className="search-bar" type="text" />
+        <button
+          id="submit"
+          type="submit"
+          onClick={() => {
+            getInfo();
+          }}>Submit</button>
+      </form>
+    </div>
+  );
 }
 export default App;
