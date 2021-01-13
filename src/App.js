@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import City from "./City";
+import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  const [info, setInfo] = useState([]);
 
+  useEffect(() => {
+    getInfo();
+  }, []);
+
+  const getInfo = async () => {
+    let zipCode = document.getElementById("textBar").value;
+    const response = await fetch(
+      `http://ctp-zip-api.herokuapp.com/zip/${zipCode}`
+    );
+
+    const data = await response.json();
+    console.log(data);
+    setInfo(data);
+  };
+
+  function displayAll(data) {
+    return (
+      <div className="App">
+        <form className="search-form">
+          <input id="textBar" className="search-bar" type="text" />
+          <button
+            id="submit"
+            type="submit"
+            onClick={() => {
+              getInfo();
+            }}
+          >
+            Search
+          </button>
+        </form>
+        {info.map((place) => (
+          <City title={place.City} />
+        ))}
+      </div>
+    );
+  }
+}
 export default App;
