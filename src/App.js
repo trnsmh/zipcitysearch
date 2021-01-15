@@ -1,36 +1,67 @@
-import React, { useEffect, useState } from "react";
-import City from "./City";
+import React from "react";
+import Zipsearch from "./Zipsearch";
+import Citysearch from "./Citysearch";
 import "./App.css";
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = { dataList: []};
+    this.changeData = this.changeDataList.bind(this);
+  }
 
-function App() {
-  const [info, setInfo] = useState([]);
+  changeDataList(value) {
 
-  useEffect(() => {
-    getInfo();
-  }, []);
+    this.setState({dataList: value});
 
-  const getInfo = async () => {
-    let zipCode = document.getElementById("textBar").value;
-    const response = await fetch(
-      `http://ctp-zip-api.herokuapp.com/zip/${zipCode}`
+    // console.log(value);
+  }
+
+  render() {
+
+    let displayArray;
+    if(this.state.dataList.length >= 1){
+      displayArray=[];
+      for(let i =0; i<this.state.dataList.length; i++){
+
+        displayArray.push(<div>
+          {this.state.dataList[i]}
+        </div>)
+      }
+    }
+    else{
+      displayArray = <div></div>
+    }
+
+
+      let displayArray2;
+    if(this.state.dataList.length >= 1){
+      displayArray2 = [];
+      for(let i=0 ;i< this.state.dataList.length; i++){
+        displayArray2.push(<div>
+          {this.state.dataList[i]}
+        </div>)
+      }
+    }
+    else{
+      displayArray2 = <div></div>
+    }
+
+
+
+    return (
+      <div className="App">
+        <div>
+          <h1 id="head"> Zip-to-CitySearch</h1>
+        </div>
+        <Zipsearch getZipData={this.changeData} />
+         {displayArray2}
+        <div>
+          <h1 id="head"> City-to-ZipSearch</h1>
+        </div>
+        <Citysearch getCityData={this.changeData} />
+        {displayArray}
+      </div>
     );
-    const data = await response.json();
-    console.log(data);
-    setInfo(data);
-  };
-
-  return (
-    <div className="App">
-      <form className="search-form">
-        <input id="textBar" className="search-bar" type="text" />
-        <button
-          id="submit"
-          type="submit"
-          onClick={() => {
-            getInfo();
-          }}>Submit</button>
-      </form>
-    </div>
-  );
-}
+  }
+}        
 export default App;
