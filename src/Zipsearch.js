@@ -7,18 +7,17 @@ function Zipsearch(props) {
     fetch(`http://ctp-zip-api.herokuapp.com/zip/${event.target.zip.value}`)
       .then((response) => response.json())
       .then((json) => {
-        
-         console.log(json.length)
-        let arr =[]
-        for(let j=0; j<json.length;j++){
- 
-          arr.push(Object.values(json[j]))
+        let arr = [];
+        for (let j = 0; j < json.length; j++) {
+          arr.push([
+            json[j]["City"],
+            json[j]["State"],
+            json[j]["Lat"] + json[j]["Long"],
+            json[j]["EstimatedPopulation"],
+            json[j]["TotalWages"],
+          ]);
         }
-        // for(let i=0;i<json.length;i++){
-          props.getZipData(arr);
-          
-          //}
-        
+        props.getZipData(arr);
       });
   };
 
@@ -33,9 +32,3 @@ function Zipsearch(props) {
 }
 
 export default Zipsearch;
-
-// json.forEach(element =>{console.log(element["City"])})
-
-// arr.push({
-//   "City": json[0]["City"]
-// })

@@ -6,13 +6,12 @@ function Citysearch(props) {
   const getInfoCity = (event) => {
     event.preventDefault(); //stops preload on before fetch returns !!!
 
-    
-
     fetch(
       `http://ctp-zip-api.herokuapp.com/City/${event.target.city.value.toUpperCase()}`
     )
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
         props.getCityData(json); //promise returns a property(prop) to be used in child (App.js)
       });
   };
